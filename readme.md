@@ -1,8 +1,8 @@
-# To-Do List Application
+# Blog Application
 
 ## Table of contents
 
-- [To-Do List Application](#to-do-list-application)
+- [Blog application](#Blog Application)
   - [Table of contents](#table-of-contents)
   - [Overview](#overview)
     - [The Features](#the-features)
