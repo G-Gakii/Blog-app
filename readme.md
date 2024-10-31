@@ -29,7 +29,7 @@
 
 ## link
 
-- Live Site URL:
+- Live Site URL:https://blog-app-1-0foy.onrender.com
 
 ### Prerequisites
 
