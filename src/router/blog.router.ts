@@ -16,8 +16,8 @@ router.post("/register", createUser);
 router.post("/login", logIn);
 router.get("/logout", autheticate, logout);
 router.post("/blogs", autheticate, createBlog);
-router.get("/blogs", autheticate, getBlogs);
-router.get("/blogs/:id", autheticate, getBlog);
+router.get("/blogs", getBlogs);
+router.get("/blogs/:id", getBlog);
 router.put("/blogs/:id", autheticate, checkAuthorization, updateBlog);
 router.delete("/blogs/:id", autheticate, checkAuthorization, deleteBlog);
 
