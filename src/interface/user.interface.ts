@@ -3,4 +3,6 @@ export interface Iuser {
   username: string;
   email: string;
   password: string;
+  refreshToken?: string | null;
+  isValidPassword(password: string): Promise<boolean>;
 }

@@ -1,45 +1,35 @@
-import express, { Request, Response } from "express";
+import express, { NextFunction, Request, Response } from "express";
 import User from "../models/user.model";
 import * as argon2 from "argon2";
-import generateToken from "../token/token";
+import generateToken, { RefreshTokenfn } from "../token/token";
+import userSchema from "../models/validatorSchema.model";
+import createError from "http-errors";
+import refreshTokenfn from "./refreshToken";
 
-const createUser = async (req: Request, res: Response) => {
+const createUser = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    if (!req.body) {
-      res.status(400).json({ message: "request body required" });
-      return;
-    }
-    const { username, email, password } = req.body;
-    if (!(username && email && password)) {
-      res.status(400).json({ message: "All fields required" });
-      return;
-    }
-    const existingUser = await User.findOne({ email: req.body.email });
+    const result = await userSchema.validateAsync(req.body);
+    const existingUser = await User.findOne({ email: result.email });
+
     if (existingUser) {
-      res.status(409).json({ message: "User already exist" });
-      return;
+      throw createError.Conflict(`${result.email} is already registered`);
     }
-    const hashedPassword = await argon2.hash(password);
-    const newuser = new User({
-      username,
-      email,
-      password: hashedPassword,
-    });
-    const user = newuser.save();
-    const token = generateToken((await user)._id);
-    res.cookie("token", token, {
-      domain: "localhost",
-      path: "/",
-      expires: new Date(Date.now() + 86400000),
-      secure: true,
-      httpOnly: true,
-      sameSite: "none",
-    });
-    res.json(user);
+
+    const newuser = new User(result);
+    const user = await newuser.save();
+    const accessToken = generateToken((await user)._id);
+    const refreshToken = RefreshTokenfn((await user)._id);
+    const hashedToken = await argon2.hash(refreshToken);
+    user.refreshToken = hashedToken;
+    await user.save();
+
+    res.json({ accessToken, refreshToken });
     return;
-  } catch (error) {
-    res.status(500).json({ message: "internal server error" + error });
-    return;
+  } catch (error: any) {
+    if (error.isJoi === true) {
+      error.status = 422;
+    }
+    next(error);
   }
 };
 export default createUser;

@@ -9,12 +9,14 @@ import updateBlog from "../controller/updateBlog";
 import deleteBlog from "../controller/deleteBlog";
 import autheticate from "../middleware/authetication.middleware";
 import checkAuthorization from "../middleware/authorization.middleware";
+import refreshTokenfn from "../controller/refreshToken";
 
 const router = express.Router();
 
 router.post("/register", createUser);
 router.post("/login", logIn);
-router.get("/logout", autheticate, logout);
+router.post("refresh", refreshTokenfn);
+router.post("/logout", logout);
 router.post("/blogs", autheticate, createBlog);
 router.get("/blogs", getBlogs);
 router.get("/blogs/:id", getBlog);
