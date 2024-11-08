@@ -27,10 +27,6 @@
 
 ## My process
 
-## link
-
-- Live Site URL:https://blog-app-1-0foy.onrender.com
-
 ### Prerequisites
 
 - Node.js
@@ -54,6 +50,13 @@
 1. Start the backend server:
    - cd backend
    - npm start
+   -
+
+## BASE URL
+
+- ## link
+
+https://blog-app-1-0foy.onrender.com
 
 ### API Endpoints
 
