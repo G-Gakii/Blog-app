@@ -63,7 +63,7 @@ https://blog-app-1-0foy.onrender.com
 - `POST /api/blog/register` - register user
 - `POST /api/blog/login` - login user
 - `GET /api/blog/logout` - log out user
--`GET /api/blog/blogs` - Retrieve all blogs
+- `GET /api/blog/blogs` - Retrieve all blogs
 - `POST /api/blog/blogs` - Create a new blog
 - `PUT /api/blog/blogs/:id` - Update a blog by ID
 - `DELETE /api/blog/blogs/:id` - Delete a blog by ID
